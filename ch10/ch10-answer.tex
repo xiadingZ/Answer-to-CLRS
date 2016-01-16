@@ -1,0 +1,532 @@
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+
+\author{Xia Ding}
+\title{\textbf{Introduction To Algorithm}\\Third Edition\\\textbf{Answer}}
+
+\begin{document}
+\maketitle
+\section*{10.1}
+\subsection*{10.1--1}
+It's easy to do it by yourself by painting the model.
+
+\subsection*{10.1--2}
+Stack S1 grows from A[1] to A[n]. Stack S2 grows from A[n] to A[1]. Neither
+stack overflows unless S1.top = S2.top, indicating the total number of elements in both stacks together is n.
+
+\subsection*{10.1--3}
+It's easy to do it by yourself by painting the model.
+
+\subsection*{10.1--4}
+Algorithm 1 and 2.
+\begin{algorithm}
+  \caption{ENQUEUE$(Q, x)$}
+  \begin{algorithmic}[1]
+    \IF {$Q.head == Q.tail+1$}
+    \STATE \textbf{error} ``overflow''
+    \ENDIF
+    \STATE $Q[Q.tail] = x$
+    \IF {$Q.tail == Q.length$}
+    \STATE $Q.tail = 1$
+    \ELSE
+    \STATE $Q.tail = Q.tail+1$
+    \ENDIF
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{DEQUEUE$(Q)$}
+  \begin{algorithmic}[1]
+    \IF {$Q.head == Q.tail$}
+    \STATE \textbf{error} ``underflow''
+    \ENDIF
+    \STATE $x = Q[Q.head]$
+    \IF {$Q.head == Q.length$}
+    \STATE $Q.head = 1$
+    \ELSE
+    \STATE $Q.head = Q.head+1$
+    \ENDIF
+    \RETURN $x$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.1--5}
+Algorithms 3$\sim$6.
+\begin{algorithm}
+  \caption{INSERT-HEAD$(Q, x)$}
+  \begin{algorithmic}[1]
+    \IF {$Q.head == 1$}
+    \STATE $Q.head = Q.length$
+    \ELSE
+    \STATE $Q.head = Q.head - 1$
+    \ENDIF
+    \IF {$Q.head == Q.tail$}
+    \STATE \textbf{error} ``overflow''
+    \ENDIF
+    \STATE $Q[Q.head] = x$
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{INSERT-TAIL$(Q, x)$}
+  \begin{algorithmic}[1]
+    \IF {$Q.tail+1 == Q.head$}
+    \STATE \textbf{error} ``overflow''
+    \ENDIF
+    \STATE $Q[Q.tail] = x$
+    \IF {$Q.tail == Q.length$}
+    \STATE $Q.tail = 1$
+    \ELSE
+    \STATE $Q.tail = Q.tail + 1$
+    \ENDIF
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{DELETE-HEAD$(Q)$}
+  \begin{algorithmic}[1]
+    \IF {$Q.head == Q.tail$}
+    \STATE \textbf{error} ``underflow''
+    \ENDIF
+    \STATE $x = Q[Q.head]$
+    \IF {$Q.head == Q.length$}
+    \STATE $Q.head = 1$
+    \ELSE
+    \STATE $Q.head = Q.head + 1$
+    \ENDIF
+    \RETURN $x$
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{DELETE-TAIL$(Q)$}
+  \begin{algorithmic}[1]
+    \IF {$Q.tail == Q.head$}
+    \STATE \textbf{error} ``underflow''
+    \ENDIF
+    \IF {$Q.tail == 1$}
+    \STATE $Q.tail = Q.length$
+    \ELSE
+    \STATE $Q.tail = Q.tail - 1$
+    \ENDIF
+    \STATE $x = Q[Q.tail]$
+    \RETURN $x$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.1--6}
+Algorithm 7 and 8. Running time of ENQUEUE is $O(1)$, running time of DEQUEUE is $O(n)$.
+\begin{algorithm}
+  \caption{ENQUEUE(S1, S2, x)}
+  \begin{algorithmic}[1]
+    \IF {STACK-EMPTY(S1)}
+    \STATE PUSH(S2, x)
+    \ELSE
+    \STATE PUSH(S1, x)
+    \ENDIF
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{DEQUEUE(S1, S2)}
+  \begin{algorithmic}[1]
+    \IF {STACK-EMPTY(S1) \AND \NOT STACK-EMPTY(S2)}
+    \STATE valid-S = S2
+    \STATE empty-S = S1
+    \ELSIF {STACK-EMPTY(S2) \AND \NOT STACK-EMPTY(S1)}
+    \STATE valid-S = S1
+    \STATE empty-S = S2
+    \ELSE
+    \STATE \textbf{error} ``underflow''
+    \ENDIF
+    \WHILE {\NOT STACK-EMPTY(valid-S)}
+    \STATE x = POP(valid-S)
+    \STATE PUSH(empty-S, x)
+    \ENDWHILE
+    \RETURN POP(empty-S)
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.1--7}
+Algorithm 9 and 10.Running time of PUSH is $O(1)$, POP is $O(n)$.
+\begin{algorithm}
+  \caption{PUSH(Q1, Q2, x)}
+  \begin{algorithmic}[1]
+    \IF {$QUEUE-EMPTY(Q1)$}
+    \STATE ENQUEUE(Q2, x)
+    \ELSE
+    \STATE ENQUEUE(Q1, x)
+    \ENDIF
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{POP(Q1, Q2, x)}
+  \begin{algorithmic}[1]
+    \IF {QUEUE-EMPTY(Q1) \AND \NOT QUEUE-EMPTY(Q2)}
+    \STATE valid-Q = Q2
+    \STATE empty-Q = Q1
+    \ELSIF {QUEUE-EMPTY(Q2) \AND \NOT QUEUE-EMPTY(Q1)}
+    \STATE valid-Q = Q1
+    \STATE empty-Q = Q2
+    \ELSE
+    \STATE \textbf{error} ``underflow''
+    \ENDIF
+    \WHILE {\NOT QUEUE-EMPTY(valid-Q)}
+    \STATE x = DEQUEUE(valid-Q)
+    \STATE ENQUEUE(empty-Q, x)
+    \ENDWHILE
+    \RETURN DEQUEUE(empty-Q)
+  \end{algorithmic}
+\end{algorithm}
+
+
+\section*{10.2}
+\subsection*{10.2--1}
+Algorithm 11 and 12. Running time of INSERT is $O(1)$, DELETE is $O(n)$.
+\begin{algorithm}
+  \caption{LIST-INSERT(L, x)}
+  \begin{algorithmic}[1]
+    \STATE $s.next = L.nil.next$
+    \STATE $L.nil.next = x$
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{LIST-DELETE(L, x)}
+  \begin{algorithmic}[1]
+    \STATE $temp = x$
+    \WHILE {$temp.next \ne x$}
+    \STATE $temp = temp.next$
+    \ENDWHILE
+    \STATE $temp.next = x.next$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.2--2}
+Algorithm 13 14.
+\begin{algorithm}
+  \caption{PUSH(L, x)}
+  \begin{algorithmic}[1]
+    \STATE LIST-INSERT(L, x)
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{POP(L)}
+  \begin{algorithmic}[1]
+    \STATE $x = L.nil.next$
+    \STATE $L.nil.next = L.nil.next.next$
+    \RETURN $x$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.2--3}
+Algorithm 15 16.
+\begin{algorithm}
+  \caption{ENQUEUE(L, x)}
+  \begin{algorithmic}[1]
+    \STATE $L.tail.next = x$
+    \STATE $L.tail = x$
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{DEQUEUE(L)}
+  \begin{algorithmic}[1]
+    \STATE $x = L.head$
+    \STATE $L.head = L.head.next$
+    \RETURN $x$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{10.2--4}
+Set $L.nil.key = x.key$ first.
+
+\subsection{10.2--5}
+All of their running time is $O(n)$.
+
+\subsection{10.2--6}
+Algorithm 17. Using doubly linked list to represent set.
+\begin{algorithm}
+  \caption{UNION(S1, S2)}
+  \begin{algorithmic}[1]
+    \STATE $L2.nil.next.prev = L1.nil.prev$
+    \STATE $L1.nil.prev.next = L2.nil.next$
+    \STATE $L1.nil.prev = L2.nil.prev$
+    \STATE $L2.nil.prev.next = L1.nil.next$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{10.2--7}
+Algorithm 18.
+\begin{algorithm}
+  \caption{REVERSE(L)}
+  \begin{algorithmic}[1]
+    \STATE $pt = L.nil.next$
+    \STATE $ptprev = L.nil$
+    \STATE $ptnext = pt.next$
+    \WHILE {$ptnext \ne L.nil$}
+    \STATE $pt.next = ptprev$
+    \STATE $ptprev = pt$
+    \STATE $pt = ptnext$
+    \STATE $ptnext = pt.next$
+    \ENDWHILE
+    \STATE $pt.next = ptprev$
+    \STATE $L.nil.next = pt$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.2--8}
+I need L.nil and L.nil.prev's memory location--\textbf{L.m}(k-bit integers). Thus the head of list's location is \textit{L.nil.np} \textbf{XOR} \textit{L.m}.\\
+Algorithm 19$sim$21.
+\begin{algorithm}
+  \caption{SEARCH(L, k)}
+  \begin{algorithmic}[1]
+    \STATE $L.nil.key = k$
+    \STATE $next = L.nil.np$ \textbf{XOR} L.m \COMMENT{pointer to next node}
+    \STATE $prev = L.nil$
+    \WHILE {$x.key \ne k$}
+    \STATE $current = x$
+    \STATE $x = next$
+    \STATE $next = x.np$ \textbf{XOR} prev
+    \STATE $prev = current$
+    \ENDWHILE
+    \RETURN $x$
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{INSERT(L, x)}
+  \begin{algorithmic}[1]
+    \STATE $next = L.nil.np$ \textbf{XOR} L.m \COMMENT{pointer to next node}
+    \STATE $prev = L.nil$
+    \STATE $x.np = next$ \textbf{XOR} prev
+    \STATE nextNext $=$ next.np \textbf{XOR} prev
+    \STATE next.np = nextNext \textbf{XOR} x
+    \STATE L.nil.np = x \textbf{XOR} L.m
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{DELETE(L, x)}
+  \begin{algorithmic}[1]
+    \STATE $next = L.nil.np$ \textbf{XOR} L.m \COMMENT{pointer to next node}
+    \STATE $prev = L.nil$
+    \WHILE {next $\ne$ x}
+    \STATE current = next
+    \STATE next $=$ next.np \textbf{XOR} prev
+    \STATE prev = current
+    \ENDWHILE
+    \STATE prev = current.np \textbf{XOR} next\\
+ \COMMENT{now: prev$\rightarrow$current$\rightarrow$next(x)
+$\rightarrow$Xnext$\rightarrow$Xnextnext}
+    \STATE Xnext = next.np \textbf{XOR} current
+    \STATE Xnextnext = Xnext.np \textbf{XOR} X
+    \STATE Xnext.np = Xnextnext \textbf{XOR} current
+    \STATE current.np = Xnext \textbf{XOR} prev
+  \end{algorithmic}
+\end{algorithm}
+
+\section*{10.3}
+\subsection*{10.3--1}
+It's easy to do by yourself.
+
+\subsection*{10.3--2}
+Algorithms 22 and 23.
+\begin{algorithm}
+  \caption{ALLOCATE-OBJECT())}
+  \begin{algorithmic}[1]
+    \IF {$free == NIL$}
+    \STATE \textbf{error} ``out of space''
+    \ELSE
+    \STATE $x = free$
+    \STATE $free = x.next$
+    \RETURN $x$
+    \ENDIF
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{FREE-OBJECT(x)}
+  \begin{algorithmic}[1]
+    \STATE $x.next = free$
+    \STATE $free = x$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.3--3}
+Because when we search the free list, we needn't \textit{prev}.
+
+\subsection*{10.3--4}
+Let every blocks' \textit{next} point to the right block and \textit{prev}
+point to the left block(according to the picture in the book). \textit{free} point to the leftmost block which isn't allocated. When call ALLOCATE-OBJECT,
+allocate the block pointed by \textit{free}, and \textit{free} move to the right block. When call FREE-OBJECT on position x, then free the object in x, then move all objects between x and position pointed by \textit{free} left by one step, then \textit{free} points to it's left block. Just like array-stack's INSERT and DELETE.
+
+\subsection*{10.3--5}
+Algorithm 24.\\
+\begin{enumerate}
+\item We traverse the free list and set each element's \textit{prev} pointer to a special value to identify later.
+\item We start two pointers, one from the beginning of the memory and one from the end. We increase the left pointer until it reaches an empty block \textbf{x} and decrease the right until it reaches a non-empty block \textbf{y}.Then copy contents of \textbf{y} to \textbf{x} and set $\mathbf{y}.next = x$.This terminates when the two pointers catch up. At this time, memory in the left of pointer is allocated, and in the right of pointer is free. Set the current position of pointer as threshold.
+\item Linearly scan the memory from the begin to threshold. Update all pointer \textit{next} that point beyond the threshold, by using the \textit{prev} in the block pointed by \textit{next}.
+\item Finally, we organize the memory beyond the threshold in a free list.
+\footnote{reference to ``http://clrs.skanev.com/10/03/05.html'' }
+\end{enumerate}
+
+\begin{algorithm}
+  \caption{COMPACTIFY-LIST(L, F)}
+  \begin{algorithmic}[1]
+    \WHILE {$F \ne NIL$}
+    \STATE $F.prev = 0$
+    \STATE $F = F.next$
+    \ENDWHILE
+    \STATE $left = 1$
+    \STATE $right =$ MAX-SIZE-OF-MEMORY
+    \WHILE {\TRUE}
+    \WHILE {$MEMORY[left].prev \ne 0$}
+    \STATE $left = left + 1$
+    \ENDWHILE
+    \WHILE {$MEMORY[right].prev == 0$}
+    \STATE $right = right - 1$
+    \ENDWHILE
+    \IF {$left \ge right$}
+    \STATE \textbf{break}
+    \ENDIF
+    \STATE $MEMORY[left].prev = MEMORY[right].prev$
+    \STATE $MEMORY[left].next = MEMORY[right].next$
+    \STATE $MEMORY[left].key = MEMORY[right].key$
+    \STATE $MEMORY[right].next = left$
+    \STATE $right = right - 1$
+    \STATE $left = left - 1$
+    \ENDWHILE
+    \STATE $right = right + 1$
+    \FOR {$i = 1; i < right; i++$}
+    \IF {$MEMORY[i].prev \ge right$}
+    \STATE $MEMORY[i].prev = MEMORY[MEMORY[i].prev].next$
+    \ENDIF
+    \IF {$MEMORY[i].next \ge right$}
+    \STATE $MEMORY[i].next = MEMORY[MEMORY[i].next].next$
+    \ENDIF
+    \ENDFOR
+    \STATE $L = MEMORY[1]$
+    \STATE $F = MEMORY[right]$
+  \end{algorithmic}
+\end{algorithm}
+
+\section*{10.4}
+\subsection*{10.4--1}
+It's easy to do it by yourself.
+
+\subsection*{10.4--2}
+Algorithm 25 and 26. Using pre-order traverse.
+\begin{algorithm}
+  \caption{PRINT(T)}
+  \begin{algorithmic}[1]
+    \STATE $root = T.root$
+    \STATE REC-PRINT$(root)$
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{REC-PRINT(root)}
+  \begin{algorithmic}
+    \IF {$root \ne NIL$}
+    \STATE print($root.key$)
+    \STATE REC-PRINT($root.left-child$)
+    \STATE REC-PRINT($root.right-child$)
+    \ENDIF
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.4--3}
+Algorithm 27. Pre-order.
+\begin{algorithm}
+  \caption{NONREC-PRINT(T)}
+  \begin{algorithmic}[1]
+    \STATE $root = T.root$
+    \STATE $S = \emptyset$ \COMMENT {use $\emptyset$ to initialize stack}
+    \STATE PUSH(S, $root$)
+    \WHILE {!STACK-EMPTY(S)}
+    \STATE $current = POP(S)$
+    \STATE print($current.key$)
+    \IF {$current.right-child \ne NIL$}
+    \STATE PUSH(S, $current.right-child$)
+    \ENDIF
+    \IF {$current.left-child \ne NIL$}
+    \STATE PUSH(S, $current.left-child$)
+    \ENDIF
+    \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.4--4}
+Algorithm 28.
+\begin{algorithm}
+  \caption{PRINT'(T)}
+  \begin{algorithmic}[1]
+    \STATE $current = T.root$
+    \WHILE {$current != NIL$}
+    \STATE print($current.key$)
+    \STATE $sibling = current.right-sibling$
+    \WHILE {$sibling \ne NIL$}
+    \STATE print($sibling.key$)
+    \STATE $sibling = sibling.right-sibling$
+    \ENDWHILE
+    \STATE $current = current.left-child$
+    \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.4--5}
+Algorithm 29. we need a pointer to keep track of previous node we visit(NIL at the begin). We set NIL as parent of the root. Then we have three case.
+\begin{enumerate}
+\item come from current node's parent, then we go to left-child. If no left-child, then to right-child, if no right-child either, then go to parent.
+\item come from current node's left-child, then go to right-child. If no right-child, then go to parent.
+\item come from current node's right-child, then go to parent.
+\end{enumerate}
+\begin{algorithm}
+  \caption{PRINT(T)}
+  \begin{algorithmic}[1]
+    \STATE $prev = NIL$
+    \STATE $current = T.root$
+    \WHILE {$current \ne NIL$}
+    \IF {$prev == current.parent$}
+    \STATE print($current.key$)
+    \STATE $prev = current$
+    \IF {$current.left-child \ne NIL$}
+    \STATE $current = current.left-chile$
+    \ELSIF {$current.right-chile \ne NIL$}
+    \STATE $current = current.right-child$
+    \ELSE
+    \STATE $current = current.parent$
+    \ENDIF
+    \ELSIF {$prev == current.left-child$ \AND $current.right-child \ne NIL$}
+    \STATE $prev = current$
+    \STATE $current = current.right-child$
+    \ELSE
+    \STATE $prev = current$
+    \STATE $current = current.parent$
+    \ENDIF
+    \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{10.4--6}
+The two pointers will be left-child and next. The boolean should be called last-sibling. If it's \textbf{FALSE}, then next point to it's right-sibling, otherwise next point to it's parent.
+
+\section*{Problem}
+\subsection*{10.1}
+It's easy to do it by yourself.
+
+\subsection*{10.2}
+
+
+\end{document}

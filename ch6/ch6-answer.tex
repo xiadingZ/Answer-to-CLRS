@@ -1,0 +1,448 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+    \node[shape=circle, draw, inner sep=2pt] (char) {#1};}}
+
+\author{Xia Ding}
+\title{\textbf{Introduction To Algorithm}\\Third Edition\\\textbf{Answer}}
+
+\begin{document}
+\maketitle
+\section*{6.1}
+\subsection*{6.1-1}
+~~Maximum and minimum numbers of elements of elements in a heap of
+height $h$ is $2^{h\!+\!1}-1$ and $2^h$.
+
+\subsection*{6.1-2}
+~~Suppose height of a $n$-element heap has height $h$.\\
+\begin{align*}
+2^h \le~~ n ~&\le 2^{h\!+\!1}-1\\
+h \le \lg n &< h + 1\\
+ h &= \lfloor {\lg n} \rfloor
+\end{align*}
+
+
+\subsection*{6.1-3}
+~~According to the \textbf \textit {max-heap-property},
+A[PARENT($i$)] $\ge$ A[$i$]. A \textbf{max-heap} is built
+recursively from many \textbf{max-heaps}, so the root of the subtree
+contains the largest value occurring anywhere in that subtree.
+
+\subsection*{6.1-4}
+~~In the lowest level of the heap-tree.
+
+\subsection*{6.1-5}
+~~If it's sorted non-increased, it does. Otherwise, it doesn't form
+a min-heap.
+
+\subsection*{6.1-6}
+~~No, 6 is less than 7.
+
+\subsection*{6.1-7}
+~~Suppose a leaf's index $i < \lfloor {n/2} \rfloor$, then it has a
+left child's indexed by 2$i$, less than n. So the array
+representation n-element heap's leaves are indexed by
+$\lfloor {n/2} \rfloor + 1, \lfloor {n/2} \rfloor +2,\ldots{}, n$.
+
+\section*{6.2}
+
+\subsection*{6.2-1}
+\begin{enumerate}
+\item swap 3 and 10
+\item swap 3 and 9
+\end{enumerate}
+
+\subsection*{6.2-2}
+\begin{algorithm}
+\caption{MIN-HEAPIFY(A, $i$)}
+\begin{algorithmic}[1]
+\STATE $i = LEFT(i)$
+\STATE $r = RIGHT(i)$
+\IF{$l \leq A.heap\textrm{-}size$ \AND $A[i] < A[l]$}
+\STATE $smallest = i$
+\ELSE
+\STATE $smallest = l$
+\ENDIF
+\IF{$r \leq A.heap\textrm{-}size$ \AND $A[r] < A[smallest]$}
+\STATE $smallest = r$
+\ENDIF
+\IF{$smallest \ne i$}
+\STATE exchange $A[i]$ with $A[smallest]$
+\STATE MIN-HEAPIFY$(A, smallest)$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+Their running time is equal.
+
+\subsection*{6.2-3}
+~~It will check condition and then do nothing.
+
+
+\subsection*{6.2-4}
+~~It will do nothing
+
+\subsection*{6.2-5}
+\begin{algorithm}
+\caption{MAX-HEAPIFY$(A, i)$}
+\begin{algorithmic}[1]
+\STATE $l = LEFT(i)$
+\STATE $r = RIGHT(i)$
+\STATE $largest = i$
+\WHILE{$l \leq A.heap\textrm{-}size$}
+\IF{$A[l] > A[largest]$}
+\STATE $largest = l$
+\ENDIF
+\IF{$r \leq A.heap\textrm{-}size$ \AND $A[r] > A[largest]$}
+\STATE $largest = r$
+\ENDIF
+\IF{$largest == i$}
+\STATE \textbf{break}
+\ELSE
+\STATE exchange $A[i]$ with $A[largest]$
+\STATE $i = largest$
+\STATE $l = LEFT(i)$
+\STATE $r = RIGHT(i)$
+\ENDIF
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+\subsection*{6.2-6}
+If an array of size $n$ is non-decreasing, it's height is
+$\lfloor {\lg n} \rfloor$, runnning time of MAX-HEAPIFY from top to buttom is $\Omega(\lg n)$
+
+\section*{6.3}
+\subsection*{6.3-1}
+Iteration
+\begin{enumerate}
+\item $[5, 3, 17, 22, 84, 19, 6, 10, 9]$
+\item $[5, 3, 19, 22, 84, 17, 6, 10, 9]$
+\item $[5, 84, 19, 22, 3, 17, 6, 10, 9]$
+\item $[84, 22, 19, 10, 3, 17, 6, 5, 9]$
+\end{enumerate}
+
+\subsection*{6.3-2}
+If $A[1] > A[2] ~and~ A[1] > A[3]$, but A[1] isn't the global maximum, then increase from 1 is a mistake.
+
+\subsection*{6.3-3}
+~~Using induction can show this.
+
+\section*{6.4}
+\subsection*{6.4-1}
+~~It's easy to do by yourself according to the model.
+
+\subsection*{6.4-2}
+\begin{description}
+\item[Initialization:] Prior to the first iteration of the loop, $i = A.heapsize$. The loop invariant is true.
+\item[Maintenance:] Suppose the invariant hold before some some iteration,
+  $A[1\ldots{}i+1]$ has the smallest elements of the array. In this iteration, A[1] is swapped with A[i], and then MAX-HEAPIFY. After that iteration,  A[i] is larger then all elements of $A[1\ldots{}i-1]$, $A[1\ldots{}i-1]$ has the smallest elements of the array. Hold the loop invariant.
+\item[Termination:] Now $i = 1$, according to loop invariant, A[1] is the smallest element of A[1$\ldots$n]. By the loop invariant, A[1,2] has the smallest elements of array, so $A[1] < A[2]$. Like this, we can conclude $A[i] < A[i+1]$ for $i=1\ldots{}n-1$, so the heapsort is correct.
+\end{description}
+
+\subsection*{6.4-3}
+\begin{description}
+\item[Increasing order:] Total using $O(n\lg n)$. BUILD-MAX-HEAP takes time $O(n)$, then each of the $n-1$ calls to MAX-HEAPIFY takes time $0(\lg n)$.
+\item[Decreasing order:] Total using $O(n\lg n)$. BUILD-MAX-HEAP takes time $O(n)$, then each of the $n-1$ calls to MAX-HEAPIFY takes time $0(\lg n)$.
+\end{description}
+
+\subsection*{6.4-4}
+\indent \textbf{I will prove the running time of heapsort is $\Theta(n\lg n)$, which will be used to 6.4-5 too}.\\
+\indent Build a max-heap will take time $\Theta(n)$. We will focus on the reminded part of the procedure.\\
+\indent First, suppose there is a complete heap with $n = 2^h - 1$ elements. Think about the $\lfloor {n/2} \rfloor = 2^{h-1}$ largest nodes, seen as set S. Because each element of S should be moved up one level by one level to top then be taken away from the heap. So we can see the running time as:
+\begin{center}
+  $\Omega$(total steps for all elements of S moving to the top)
+\end{center}
+Now, let's see the distribution of S. We see level $x$ as level of height $x$. In level 0, there are at most $|S|/2$ nodes of the set S. Because by contradiction, every node's parent is larger than it's child, if there are at least$2^{h-2}+1$ nodes of set S in level 0. Then in level 1, there are at least   $2^{h-3}+1$ nodes of set S, like this, from $h = 0 ~to~ \lg n$, sum of them is larger than $2^{h-1}$,  contradicting  $|S| = 2^{h-1}$. So, in level 0, there are no more than $|S|/2$ nodes of set S. So there are no more than $2^{h-2}$ nodes in level 0 and at least $2^{h-2}$ nodes of S in first $h-2$ levels. Because at most $2^{h-3}$ nodes in first $h-3$ levels, so at least $2^{h-3}$ nodes of S in level 1. Move all them up to top take $2^{h-3}*(h-2)$ steps, because $h=\lg n$, to the running time is $\Theta(n\lg n)$.\\
+\indent Now let's see the case the heap isn't completed. The running time of it is larger than running time of first h-1 levels(complete heap), which is $\Theta(n\lg n)$, so the running time is still $\Theta(n\lg n)$.
+
+
+\subsection*{6.4-5}
+~~See 6.4-4
+
+\section*{6.5}
+\subsection*{6.5-1}
+~~It's easy to do by yourself.
+
+\subsection*{6.5-2}
+~~It's easy to do by yourself.
+
+\subsection*{6.5-3}
+\begin{algorithm}
+\caption{HEAP-MINIMUM$(A)$}
+\begin{algorithmic}[1]
+\RETURN{A[1]}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{HEAP-EXTRACT-MIN(A)}
+\begin{algorithmic}[1]
+\IF{A.heap-size $<$ 1}
+\STATE \textbf{error} ``heap under flow''
+\ENDIF
+\STATE $min = A[1]$
+\STATE A[1] $=$ A[A.heap-size]
+\STATE A.heap-size $=$ A.heap-size $-$ 1
+\STATE MIN-HEAPIFY(A, 1)
+\RETURN{min}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{HEAP-DECREASE-KEY$(A, i, key)$}
+\begin{algorithmic}[1]
+\IF{$key > A[i]$}
+\STATE \textbf{error} ``new key is larger than current key''
+\ENDIF
+\STATE $A[i] = key$
+\WHILE{$i > 1$~and $A[PARENT(i)] > A[i]$}
+\STATE exchange A[i] with A[PARENT(i)]
+\STATE $i = PARENT(i)$
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{MAX-HEAP-INSERT$(A, key)$}
+\begin{algorithmic}[1]
+\STATE A.heap-size $=$ A.heap-size $+$ 1
+\STATE A[A.heap-size] = +$\infty$
+\STATE HEAP-DECREASE-KEY(A, A.heap-size, $key$)
+\end{algorithmic}
+\end{algorithm}
+
+\subsection*{6.5-4}
+~~If we don't set it and the desired value of key is no bigger than random initialized value, then we can't insert the node correctly.
+
+\subsection*{6.5-5}
+\begin{description}
+\item[Initialization: ]Before the first iteration, because the heap is max heap, after one key is increased, there is at most one violation to the max-heap property. The loop invariant is true.
+\item[Maintenance: ] Suppose the loop invariant is held before some iteration. In that iteration, the only violation is $A[i] > A[PARENT(i)]$. After that iteration, there are two cases. One is: A[i] is still larger than A[PARENT(i)], only one violation to the max-heap property. The other case is: reach the t termination case. So the loop invariant is true.
+\item[Termination: ]There are two cases for termination. \circled{1}$\mathbf{i = 1}$. Then the A[i] is the largest. After increase it's key, it's still the largest, holding the max-heap property. \circled{2}$\mathbf{A[PARENT(i)] \ge A[i]}$, holding the max-heap property. So the loop invariant is true.
+\end{description}
+\newpage
+\subsection*{6.5-6}
+\begin{algorithm}
+\caption{HEAP-INCREASE-KEY$(A, i, key)$}
+\begin{algorithmic}[1]
+\IF{$key < A[i]$}
+\STATE \textbf{error} ``new key is smaller than current key''
+\ENDIF
+\WHILE{$i > 1$~and $A[PARENT(i)] < key$}
+\STATE $A[i] = A[PARENT(i)]$
+\STATE $i = PARENT(i)$
+\ENDWHILE
+\STATE $A[i] = key$
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection*{6.5-7}
+~~~\textbf{We use Min-heap to implement queue, use Max-heap to implement stack.}\\
+\indent Now, we will use a \textbf{class}:\textbf{node} to encapsulate the value we insert in the priority queue. node.value is what we want to insert, node.key is an integer used to compare node. If $A.key < B.key$, then $A < B$.\\
+\indent We first set a global variable \textbf{count = 0}, each time we insert a value, we create a \textbf{node} and set \textbf{node.value = value, node.key = count, count = count + 1}. So that first-in node has a lower key than others, so each time we use \textbf{EXTRACT-MIN}, we get the first-in value. this is the queue.\\
+\indent Stack is similar to queue. Each time we use \textbf{EXTRACT-MAX}, we get the last-in value because it's node has a higher key.
+
+
+
+\subsection*{6.5-8}
+\begin{algorithm}
+\caption{HEAP-DELETE$(A, i)$}
+\begin{algorithmic}[1]
+\STATE $A[i] = -\infty$
+\STATE MAX-HEAPIFY(A, $i$)
+\STATE $A.heap\textrm{-}size = A.heap\textrm{-}size - 1$
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection*{6.5-9}
+~~Suppose lists are decreasing. First extract all lists' first elements to build a k-element min heap, take time $\Theta(n)$. Then loop until all all lists become empty. In each iteration, extract a min element from heap to the final list, then extract an element from some list and insert to heap, both procedure take time $O(\lg n)$, because there are n elements and in each iteration extract one element. Because k lists are sorted, so final list is sorted. Total time is $nO(\lg n) = O(n\lg n)$.
+
+\section*{Problems}
+\subsection*{6.1 \textit{\textbf{Building a heap using insertion}}}
+\begin{description}
+\item[a] Not always. If we input $[1, 2, 3]$. \textbf{BUILD-MAX-HEAP} will produce $[3, 2, 1]$, \textbf{BUILD-MAX-HEAP'} will produce $[3, 2, 1]$.
+\item[b] An upper bound of $O(n\lg n)$ time follows from the $n-1$ calls to \textbf{MAX-HEAP-INSERT}, each taking $O(\lg n)$ time. For a lower bound, consider the case in which the input array is in strictly increasing order. Each call to \textbf{MAX-HEAP-INSERT} causes \textbf{HEAP-INCREASE-KEY} to go all the way up to the root. Since the depth of node $i$ is $\lfloor {\lg i} \rfloor$, the total time is
+  \begin{align*}
+    \sum_{i=1}^n\Theta(\lg i) &\ge \sum_{i=\lceil {n/2} \rceil {n/2}}^n\Theta(\lfloor {  \lg \lceil {n/2} \rceil \rfloor}) \\
+                              & = \sum_{i=\lceil {n/2} \rceil {n/2}}^n\Theta(\lfloor {\lg{n} - 1} \rfloor) \\
+                              & \ge n/2*\Theta(\lg n)\\
+                              & = \Omega(n\lg n)
+  \end{align*}
+  So \textbf{BUILD-MAX-HEAP'} requires $\Theta(n\lg n)$ time.
+\end{description}
+
+\subsection*{6.2 \textit{\textbf{Analysis of d-ary heaps}}}
+\begin{description}
+\item[a. ] Similar to 2-ary heap.
+  \begin{algorithmic}
+    \STATE $PARENT(i) = \lfloor {i/d} \rfloor$
+    \STATE $CHILD(i, x) = di+x$ \COMMENT{x is i's x-th child, $0 \le x < d$}
+  \end{algorithmic}
+
+\item[b. ]
+  \begin{align*}
+    \frac{d^h-1}{d-1} < n &\le \frac{d^{h+1}-1}{d-1}\\
+    \log_d(nd-n+1)-1 \le h &< \log_d(nd-n+1)\\
+    h &= \lceil {\log_h(nd-n+1)} \rceil - 1
+  \end{align*}
+  Because usually d $\ll$ n, so we can say $h = \Theta(\log_d(n))$.
+
+
+
+\item[c. ] Algorithms 9-12.Running time is $O(h) = O(\log_d(n))$.
+
+  \begin{algorithm}
+    \caption{PARENT(d, i)}
+    \begin{algorithmic}[1]
+      \RETURN $\lfloor {(i-2)/d+1} \rfloor$
+    \end{algorithmic}
+  \end{algorithm}
+
+  \begin{algorithm}
+    \caption{CHILD(d, i, x)}
+    \begin{algorithmic}
+      \RETURN $d(i-1)+x$
+    \end{algorithmic}
+  \end{algorithm}
+
+  \begin{algorithm}
+    \caption{EXTRACT-MAX(A, d)}
+    \begin{algorithmic}[1]
+      \STATE $max = A[1]$
+      \STATE $A[1] = A[heap\textrm{-}size]$
+      \STATE $A.heap\textrm{-}size = A.heap\textrm{-}size - 1$
+      \STATE MAX-HEAPIFY(A, 1)
+      \RETURN $max$
+    \end{algorithmic}
+  \end{algorithm}
+
+  \begin{algorithm}
+    \caption{MAX-HEAPIFY(A, d, i)}
+    \begin{algorithmic}[1]
+      \STATE $largest = i$
+      \FORALL{$j$ such that $0 \le j < d$}
+      \STATE $child = CHILD(d, i, j)$
+      \IF{$child \le A.heap\textrm{-}size$ \AND $A[child] > A[largest]$}
+      \STATE $largest = child$
+      \ENDIF
+      \ENDFOR
+      \IF {$largest \ne i$}
+      \STATE exchange $A[i]$ with $A[largest]$
+      \STATE MAX-HEAPIFY(A, $largest$)
+      \ENDIF
+    \end{algorithmic}
+  \end{algorithm}
+
+
+\item[d. ] Algorithm 13. Have used INCREASE-KEY(A, $d$, $i$, $key$) in \textbf{e}. Running time is $O(h) = O(\log_d(n))$.
+  \begin{algorithm}
+    \caption{INSERT(A, $d$, $key$)}
+    \begin{algorithmic}[1]
+      \STATE A.heap-size $=$ A.heap-size $+$ 1
+      \STATE A[A.heap-size] $=$ $-\infty$
+      \STATE INCREASE-KEY$(A, d, \textrm{A.heap-size}, key)$
+    \end{algorithmic}
+  \end{algorithm}
+
+\item[e. ] Algorithm 14. Running time is $O(h) = O(\log_d(n))$.
+  \begin{algorithm}
+    \caption{INCREASE-KEY$(A, d, i, key)$}
+    \begin{algorithmic}[1]
+      \IF {$key < A[i]$}
+      \STATE \textbf{error} ``new key is smaller than current key''
+      \ENDIF
+      \STATE $A[i] = key$
+      \WHILE {$i > 1$ \AND $A[PARENT(i) < A[i]$]}
+      \STATE exchange $A[i]$ with $A[PARENT(I)]$
+      \STATE $i = PARENT(i)$
+      \ENDWHILE
+    \end{algorithmic}
+  \end{algorithm}
+\end{description}
+
+\subsection*{\textit{\textbf{Young tableaus}}}
+\begin{description}
+\item[a. ] It's easy to do by yourself.
+\item[b. ] We suppose each row and column are increasing order from left to right.\\
+\indent~~~If Y[1, 1] = $\infty$, then for all $i$ such $1 \le i \le n$, we have Y[1, $i$] $=$ $\infty$. So the all elements of first row are $\infty$. Because each column is sorted, so each element beneath the first row are larger than first element in it's column, then all elements beneath the first row is $\infty$.So such Y is empty.\\
+\indent~~~~If Y[m, n] $<$ $\infty$, we prove by contradiction. If there is a element Y[i, j] $=$ $\infty$ then the subtableau begin from Y[i, j] is empty using before conclusion, so Y[m, n] $=$ $\infty$, contradict the given condition. So Y is full.
+\item[c. ] Algorithms 15-16. We use (a, b, \ldots) to represent a tuple, used to simplify assignment and multi-dimension array's index. $(a, b) > (c, d)$ if and only if $a > c$ and $b > d$.
+  \begin{algorithm}
+    \caption{MIN-HEAPIFY$(Y, (m,\ n), (i,\ j))$}
+    \begin{algorithmic}[1]
+      \STATE $right = (m,\ n+1)$
+      \STATE $down = (m+1,\ n)$
+      \STATE $smallest = (i,\ j)$
+      \IF {$right \le (m,\ n)$ \AND $Y[right] < Y[smallest]$}
+      \STATE $smallest = right$
+      \ENDIF
+      \IF {$down \le (m,\ n)$ \AND $Y[down] < Y[smallest]$}
+      \STATE $smallest = down$
+      \ENDIF
+      \IF {$smallest \ne (i,\ j)$}
+      \STATE exchange Y[smallest] and Y[i, j]
+      \STATE MIN-HEAPIFY$(Y, (m,\ n), smallest)$
+      \ENDIF
+    \end{algorithmic}
+  \end{algorithm}
+
+  \begin{algorithm}
+    \caption{EXTRACT-MIN(Y, (m,\ n))}
+    \begin{algorithmic}[1]
+      \STATE $min = Y[1,\ 1]$
+      \STATE $Y[1,\ 1] = Y[m,\ n]$
+      \STATE $Y[m,\ n] = \infty$
+      \STATE MIN-HEAPIFY$(Y, (m,\ n), (1,\ 1))$
+      \RETURN $min$
+    \end{algorithmic}
+  \end{algorithm}
+
+\item[d. ] Algorithm 17.Because each time the new element move left or up, it will take at most m+n steps to reach the top, So the running time is $O(m+n)$.
+  \begin{algorithm}
+    \caption{INSERT$(Y, (m,\ n), key)$}
+    \begin{algorithmic}[1]
+      \IF {$Y[m,\ n] \ne \infty$}
+      \STATE \textbf{error} ``Y is full.''
+      \ENDIF
+      \STATE $Y[m,\ n] = key$
+      \STATE $position = (m,\ n)$
+      \STATE $largest = (m,\ n)$
+      \WHILE {$position \ne (1,\ 1)$}
+      \STATE $left = position - (1,\ 0)$
+      \STATE $right = position - (0,\ 1)$
+      \IF {left $>=$ (1, 1) \AND Y[left] $>$ Y[largest]}
+      \STATE $largest = left$
+      \ENDIF
+      \IF {right $>=$ (1, 1) \AND Y[right] $>$ Y[largest]}
+      \STATE $largest = right$
+      \ENDIF
+      \IF {$largest == position$}
+      \STATE \textbf{break}
+      \ELSE
+      \STATE $Y[position] = Y[largest]$
+      \STATE INSERT$(Y, largest, key)$
+      \ENDIF
+      \ENDWHILE
+    \end{algorithmic}
+  \end{algorithm}
+
+\item[e. ] Construct a n*n Young tableau. So insert takes time $O(n)$. Using $n^2$ times insert, take time $O(n^3)$. After that, use $n^2$ times extract-min, take time $O(n^3)$.  So the total time is $O(n^3)$.
+
+\item[f. ]   Taking turn using binary search to Y's row and column, each time make the length of row or column half, so that the size of tableau become half. So running time is
+\[O(\lg mn) = O(\lg m + \lg n) = O(m+n)\]
+
+\end{description}
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

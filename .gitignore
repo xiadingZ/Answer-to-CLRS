@@ -1,0 +1,9 @@
+*
+!ch*/
+!ch*/*.tex
+!ch*/*.pdf
+
+!.gitignore
+!LICENCE.md
+!README.md
+!*.tex
